@@ -7,13 +7,7 @@ app.secret_key = "alekrmqkmwemk"
 
 @app.route("/")
 def index():
-    # tasks_db = database.get_tasks()
-    if "user_id" not in session:
-        return redirect(url_for("login_page"))
-    
-    
-    login = session["login"]
-    return render_template("index.html", username=login)
+    return render_template("index.html")
 
 @app.route("/register", methods=["POST", "GET"])
 def register_page():
@@ -23,6 +17,9 @@ def register_page():
         login = request.form['login']
         pass1 = request.form['pass1']
         pass2 = request.form['pass2']
+        email = request.form['email']
+        birthday = request.form['birthday']
+        bio = request.form['bio']
         errors = []
 
 
@@ -69,5 +66,29 @@ def login_page():
         else:
             print("Что-то не так")
             return render_template("login.html", errors=["Неверный логин или пароль"])
+
+@app.route("/success_register")
+def success_register():
+    return render_template("success_register.html")
+
+@app.route("/choice")
+def choice():
+    return render_template("choice.html")
+
+@app.route("/my_page")
+def my_page():
+    return render_template("my_page.html")
+
+@app.route("/gifts_for_friends")
+def gifts_for_friends():
+    return render_template("gifts_for_friends.html")
+
+@app.route("/settings")
+def settings():
+    return render_template("settings.html")
+
+@app.route("/create_wishlist")
+def create_wishlist():
+    return render_template("create_wishlist.html")
 
 app.run(debug=True)

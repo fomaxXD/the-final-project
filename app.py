@@ -62,7 +62,7 @@ def login_page():
             print("Успешный вход")
             session["user_id"] = user_id
             session["login"] = login
-            return redirect(url_for("index"))
+            return redirect(url_for("choice"))
         else:
             print("Что-то не так")
             return render_template("login.html", errors=["Неверный логин или пароль"])
@@ -87,8 +87,28 @@ def gifts_for_friends():
 def settings():
     return render_template("settings.html")
 
-@app.route("/create_wishlist")
+@app.route("/create_wishlist", methods=['GET', 'POST'])
 def create_wishlist():
-    return render_template("create_wishlist.html")
+    if request.method == "GET":
+        return render_template("create_wishlist.html")
+    else:
+        title = request.form["title"]
+        comment = request.form["comment"]
+        date = request.form["date"]
+        wishlist_id = database.cr_wishlist(title, comment, date)
+
+
+        if wishlist_id:
+            print("Вишлист успешно создан")
+            session["title"] = title
+            session["comment"] = comment
+            session["date"] = date
+            return redirect(url_for("my_page"))
+        else:
+            print("Что-то не так")
+            return render_template("create_wishlist.html", errors=["Название обязательно"])
+
+
+ 
 
 app.run(debug=True)

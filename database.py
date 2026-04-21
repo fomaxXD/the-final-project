@@ -101,6 +101,13 @@ def auth_user(login, password):
 
     ...
 
+def cr_wishlist(title, comment, date):
+    conn = sqlite3.connect("wishlist.db")
+    cursor = conn.cursor()    
+
+    cursor.execute("INSERT INTO wishlists (title, comment, event_date) VALUES (?, ?, ?)", (title, comment, date))
+
+    conn.commit()  
 
 if __name__ == "__main__":
     create_db()

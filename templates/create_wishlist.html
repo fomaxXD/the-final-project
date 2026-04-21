@@ -6,6 +6,26 @@
     <title>Создание вишлиста</title>
 </head>
 <body>
-    <h1>Создать вишлист</h1>
+    <h1>Создайте вишлист</h1>
+    <form action="/create_wishlist" method="POST">
+        <div>
+            <label for="">Название вишлиста</label>
+            <input type="text" name="title">
+        </div>
+        <div>
+            <label for="">Комментарий</label>
+            <input type="text" name="comment">
+        </div>
+        <div>
+            <label for="">Дата события</label>
+            <input type="date" name="date">
+        </div>
+        <div>
+            <input type="submit" value="Создать">
+        </div>
+    </form>
 </body>
 </html>
+
+
+

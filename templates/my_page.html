@@ -7,6 +7,30 @@
 </head>
 <body>
     <h1>Моя страница</h1>
-    <a href="{{url_for('create_wishlist')}}"><button>Создать вишлист</button></a>
+{% if wishlists %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Комментарий</th>
+            <th>Дата события</th>
+        </tr>
+        {% for wishlist in wishlists %}
+        <tr>
+            <td>{{ wishlist[0] }}</td>
+            <td>{{ wishlist[2] }}</td>
+            <td>{{ wishlist[3] }}</td>
+            <td>{{ wishlist[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>У вас пока нет вишлистов. Создайте первый!</p>
+    {% endif %}
+    
+    <a href="{{ url_for('create_wishlist') }}"><button>Создать вишлист</button></a>
+    <br>
+    <a href="{{ url_for('choice') }}"><button>Назад</button></a>
 </body>
 </html>
+

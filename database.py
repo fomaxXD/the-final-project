@@ -47,10 +47,10 @@ def create_db():
         )
     """
     cursor.execute(sql)
-    conn.commit
+    conn.commit()
 
     sql = """
-        CREATE TABLE IN NOT EXISTS Book(
+        CREATE TABLE IF NOT EXISTS Book(
             id INTEGER,
             user_id INTEGER,
             gift_id INTEGER,
@@ -101,13 +101,28 @@ def auth_user(login, password):
 
     ...
 
-def cr_wishlist(title, comment, date):
+def cr_wishlist(user_id, title, comment, date):
     conn = sqlite3.connect("wishlist.db")
     cursor = conn.cursor()    
+    cursor.execute(
+        "INSERT INTO wishlists (user_id, title, comment, event_date) VALUES (?, ?, ?, ?)",
+        (user_id, title, comment, date)
+    )
+    wishlist_id = cursor.lastrowid
 
-    cursor.execute("INSERT INTO wishlists (title, comment, event_date) VALUES (?, ?, ?)", (title, comment, date))
+    return wishlist_id
 
-    conn.commit()  
+
+
+def get_user_wishlists(user_id):
+    conn = sqlite3.connect("wishlist.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM wishlists WHERE user_id = ?", (user_id,))
+    wishlists = cursor.fetchall()
+    return wishlists
 
 if __name__ == "__main__":
     create_db()
+
+

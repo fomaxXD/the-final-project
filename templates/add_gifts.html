@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление подарка</title>
+</head>
+<body>
+    <h1>Добавление подарка</h1>
+    <h1>Добавить подарок в вишлист: {{ wishlist[2] }}</h1>
+    
+    {% if errors %}
+    <div class="error">
+        {% for error in errors %}
+        <p>❌ {{ error }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <form action="{{ url_for('add_gift', wishlist_id=wishlist_id) }}" method="POST">
+        <div class="form-group">
+            <label for="name">Название подарка *</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="price">Цена (в рублях)</label>
+            <input type="number" id="price" name="price" step="1" min="0">
+            <div class="hint">Необязательно</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="link">Ссылка на подарок</label>
+            <input type="url" id="link" name="link" placeholder="https://...">
+            <div class="hint">Необязательно</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="desire_level">Уровень желания (1-10)</label>
+            <select id="desire_level" name="desire_level">
+                <option value="10">🔥 10 - Очень сильно хочу!</option>
+                <option value="9">9 - Очень хочу</option>
+                <option value="8">8 - Сильно хочу</option>
+                <option value="7">7 - Хочу</option>
+                <option value="6">6 - Неплохо бы</option>
+                <option value="5" selected>5 - Средне</option>
+                <option value="4">4 - Не очень</option>
+                <option value="3">3 - Могу без него</option>
+                <option value="2">2 - Почти не хочу</option>
+                <option value="1">1 - Вообще не хочу</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="comment">Комментарий</label>
+            <textarea id="comment" name="comment" rows="3" placeholder="Например: красный, размер M..."></textarea>
+            <div class="hint">Необязательно</div>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit">💾 Сохранить подарок</button>
+            <a href="{{ url_for('list_gifts', wishlist_id=wishlist_id) }}">
+                <button type="button" class="back-btn">❌ Отмена</button>
+            </a>
+        </div>
+    </form>
+</body>
+</html>

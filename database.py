@@ -109,7 +109,6 @@ def cr_wishlist(user_id, title, comment, date):
         (user_id, title, comment, date)
     )
     wishlist_id = cursor.lastrowid
-
     return wishlist_id
 
 
@@ -122,7 +121,31 @@ def get_user_wishlists(user_id):
     wishlists = cursor.fetchall()
     return wishlists
 
+def get_wishlist_by_id(wishlist_id):
+    conn = sqlite3.connect("wishlist.db")
+    cursor  = conn.cursor()
+
+    cursor.execute("SELECT * FROM wishlists WHERE user_id = ?", (wishlist_id,))
+    wishlists = cursor.fetchall()
+    return wishlists
+
+def get_gifts_by_wishlist(wishlist_id):
+    conn = sqlite3.connect("wishlist.db")
+    cursor  = conn.cursor()
+
+    cursor.execute("SELECT * FROM Gifts WHERE wishlist_id = ?", (wishlist_id,))
+    gifts = cursor.fetchall()
+    return gifts
+
+def add_gifts(wishlist_id, name, price, link, desire_level, comment):
+    conn = sqlite3.connect("wishlist.db")
+    cursor  = conn.cursor()
+
+    cursor.execute(
+        "INSERT INTO Gifts (wishlist_id, name, price, link, desire_level, comment) VALUES (?, ?, ?, ?, ?, ?)", (wishlist_id, name, price, link, desire_level, comment)
+    )
+    gift_id = cursor.lastrowid
+    return gift_id
+
 if __name__ == "__main__":
     create_db()
-
-

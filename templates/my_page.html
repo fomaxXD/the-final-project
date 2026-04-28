@@ -21,6 +21,11 @@
             <td>{{ wishlist[2] }}</td>
             <td>{{ wishlist[3] }}</td>
             <td>{{ wishlist[4] }}</td>
+            <td>
+                <a href="{{ url_for('list_gifts', wishlist_id=wishlist[0]) }}">
+                    <button class="view-btn">Просмотреть подарки</button>
+                </a>
+            </td>
         </tr>
         {% endfor %}
     </table>

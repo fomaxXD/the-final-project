@@ -126,8 +126,39 @@ def create_wishlist():
             print("Что-то не так")
             return render_template("create_wishlist.html", errors=["Ошибка создания вишлиста"])
 
+@app.route("/list_gifts/<int:wishlist_id>")
+def list_gifts(wishlist_id):
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect(url_for("login_page"))
+    
+    wishlist = database.get_wishlist_by_id(wishlist_id)
+    if not wishlist or wishlist[1] != user_id:
+        return redirect(url_for("my_page"))
+    
+    gifts = database.get_gifts_by_wishlist(wishlist_id)
+    return render_template("list_gifts.html", wishlist=wishlist, gifts=gifts)
 
+app.route("/add_gifts/<int:wishlist_id>", methods=['GET', 'POST'])
+def add_gifts(wishlist_id):
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect(url_for("login_page"))
+    
+    wishlist = database.get_wishlist_by_id(wishlist_id)
+    if not wishlist or wishlist[1] != user_id:
+        return redirect(url_for("my_page"))
+    
+    if request.method == "GET":
+        return render_template("add_gift.html", wishlist_id=wishlist_id, wishlist=wishlist)
+    else:
+        name = request.form['name']
+        price = request.form['price']
+        link = request.form['link']
+        desire_level = request.form['desire_level']
+        comment = request.form['comment']
+        return render_template("add_gift.html", wishlist_id=wishlist_id, wishlist=wishlist)
 
- 
+ИСПРАВЬ И СДЕЛАЙ СВОИ ДОБАВЛЕНИЯ И СПИСОК
 
 app.run(debug=True)

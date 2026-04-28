@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список подарков</title>
+</head>
+<body>
+    <h1>Список подарков</h1>
+    <h1>Подарки в вишлисте: {{ wishlist[2] }}</h1>
+    
+    <div class="wishlist-info">
+        <p><strong>Комментарий:</strong> {{ wishlist[3] }}</p>
+        <p><strong>Дата события:</strong> {{ wishlist[4] }}</p>
+    </div>
+    
+    {% if gifts %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Цена (₽)</th>
+            <th>Ссылка</th>
+            <th>Уровень желания</th>
+            <th>Комментарий</th>
+        </tr>
+        {% for gift in gifts %}
+        <tr>
+            <td>{{ gift[0] }}</td>
+            <td>{{ gift[2] }}</td>
+            <td>{% if gift[3] > 0 %}{{ gift[3] }} ₽{% else %}Не указана{% endif %}</td>
+            <td>{% if gift[4] %}<a href="{{ gift[4] }}" target="_blank">Ссылка</a>{% else %}—{% endif %}</td>
+            <td>
+                {% set level = gift[5] %}
+                {% if level >= 8 %}
+                    <span class="desire-level level-high">🔥 {{ level }}/10</span>
+                {% elif level >= 5 %}
+                    <span class="desire-level level-medium">⭐ {{ level }}/10</span>
+                {% else %}
+                    <span class="desire-level level-low">💚 {{ level }}/10</span>
+                {% endif %}
+            </td>
+            <td>{{ gift[6] if gift[6] else '—' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>В этом вишлисте пока нет подарков. Добавьте первый!</p>
+    {% endif %}
+    
+    <a href="{{ url_for('add_gift', wishlist_id=wishlist[0]) }}">
+        <button class="add-btn">➕ Добавить подарок</button>
+    </a>
+    <a href="{{ url_for('my_page') }}">
+        <button class="back-btn">← Назад к моим вишлистам</button>
+    </a>
+</body>
+</html>

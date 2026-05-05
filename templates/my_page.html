@@ -22,9 +22,10 @@
             <td>{{ wishlist[3] }}</td>
             <td>{{ wishlist[4] }}</td>
             <td>
-                <a href="{{ url_for('list_gifts', wishlist_id=wishlist[0]) }}">
-                    <button class="view-btn">Просмотреть подарки</button>
-                </a>
+                <a href="{{ url_for('list_gifts', wishlist_id=wishlist[0]) }}"><button>Посмотреть подарки</button></a>
+            </td>
+            <td>
+                <a href="{{ url_for('add_gifts', wishlist_id=wishlist[0]) }}"><button>Добавить подарок</button></a>
             </td>
         </tr>
         {% endfor %}

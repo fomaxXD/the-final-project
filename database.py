@@ -109,8 +109,8 @@ def cr_wishlist(user_id, title, comment, date):
         (user_id, title, comment, date)
     )
     wishlist_id = cursor.lastrowid
+    conn.close()
     return wishlist_id
-
 
 
 def get_user_wishlists(user_id):
@@ -144,6 +144,7 @@ def add_gifts(wishlist_id, name, price, link, desire_level, comment):
     cursor.execute(
         "INSERT INTO Gifts (wishlist_id, name, price, link, desire_level, comment) VALUES (?, ?, ?, ?, ?, ?)", (wishlist_id, name, price, link, desire_level, comment)
     )
+    conn.commit()
     gift_id = cursor.lastrowid
     return gift_id
 

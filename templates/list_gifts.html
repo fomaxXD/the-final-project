@@ -48,7 +48,7 @@
     <p>В этом вишлисте пока нет подарков. Добавьте первый!</p>
     {% endif %}
     
-    <a href="{{ url_for('add_gift', wishlist_id=wishlist[0]) }}">
+    <a href="{{ url_for('add_gifts', wishlist_id=wishlist[0]) }}">
         <button class="add-btn">➕ Добавить подарок</button>
     </a>
     <a href="{{ url_for('my_page') }}">

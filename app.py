@@ -75,16 +75,6 @@ def success_register():
 def choice():
     return render_template("choice.html")
 
-def my_page():
-    user_id = session.get("user_id")
-    if not user_id:
-        return redirect(url_for("login_page"))
-    
-    wishlists = database.get_user_wishlists(user_id)
-
-    return render_template("my_page.html", wishlists=wishlists)
-
-
 @app.route("/gifts_for_friends")
 def gifts_for_friends():
     return render_template("gifts_for_friends.html")
@@ -103,28 +93,38 @@ def my_page():
 
 @app.route("/create_wishlist", methods=['GET', 'POST'])
 def create_wishlist():
+    print("Метод:", request.method)
+    
     if request.method == "GET":
         return render_template("create_wishlist.html")
+    
+    # POST — получаем все данные из формы
+    user_id = session.get("user_id")
+    title = request.form.get("title", "")
+    comment = request.form.get("comment", "")
+    date = request.form.get("date", "")
+    
+    print("user_id:", user_id)
+    print("title:", title)
+    print("comment:", comment)
+    print("date:", date)
+    
+    if not user_id:
+        return redirect(url_for("login_page"))
+    
+    if not title:
+        return render_template("create_wishlist.html", errors=["Название обязательно"])
+    
+    wishlist_id = database.cr_wishlist(user_id, title, comment, date)
+    print("wishlist_id:", wishlist_id)
+    
+    if wishlist_id:
+        return redirect(url_for("my_page"))
     else:
-        title = request.form["title"]
-        comment = request.form["comment"]
-        date = request.form["date"]
-        
-        if not title:
-            return render_template("create_wishlist.html", errors=["Название обязательно"])
-        
-        user_id = session.get("user_id")
-        if not user_id:
-            return redirect(url_for("login_page"))
-        
-        wishlist_id = database.cr_wishlist(user_id, title, comment, date)
-        
-        if wishlist_id:
-            print("Вишлист успешно создан")
-            return redirect(url_for("my_page"))
-        else:
-            print("Что-то не так")
-            return render_template("create_wishlist.html", errors=["Ошибка создания вишлиста"])
+        return render_template("create_wishlist.html", errors=["Ошибка создания вишлиста"])
+
+
+
 
 @app.route("/list_gifts/<int:wishlist_id>")
 def list_gifts(wishlist_id):
@@ -139,7 +139,7 @@ def list_gifts(wishlist_id):
     gifts = database.get_gifts_by_wishlist(wishlist_id)
     return render_template("list_gifts.html", wishlist=wishlist, gifts=gifts)
 
-app.route("/add_gifts/<int:wishlist_id>", methods=['GET', 'POST'])
+@app.route("/add_gifts/<int:wishlist_id>", methods=['GET', 'POST'])
 def add_gifts(wishlist_id):
     user_id = session.get("user_id")
     if not user_id:
@@ -157,8 +157,14 @@ def add_gifts(wishlist_id):
         link = request.form['link']
         desire_level = request.form['desire_level']
         comment = request.form['comment']
-        return render_template("add_gift.html", wishlist_id=wishlist_id, wishlist=wishlist)
-
-ИСПРАВЬ И СДЕЛАЙ СВОИ ДОБАВЛЕНИЯ И СПИСОК
+        
+        # Сохраняем подарок
+        gift_id = database.add_gift(wishlist_id, name, price, link, desire_level, comment)
+        
+        if gift_id:
+            return redirect(url_for('list_gifts', wishlist_id=wishlist_id))
+        else:
+            return render_template("add_gift.html", wishlist_id=wishlist_id, wishlist=wishlist, errors=["Ошибка добавления подарка"])
+#ИСПРАВЬ И СДЕЛАЙ СВОИ ДОБАВЛЕНИЯ И СПИСОК
 
 app.run(debug=True)

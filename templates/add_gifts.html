@@ -12,7 +12,7 @@
     {% if errors %}
     <div class="error">
         {% for error in errors %}
-        <p>❌ {{ error }}</p>
+        <p> {{ error }}</p>
         {% endfor %}
     </div>
     {% endif %}
@@ -38,7 +38,7 @@
         <div class="form-group">
             <label for="desire_level">Уровень желания (1-10)</label>
             <select id="desire_level" name="desire_level">
-                <option value="10">🔥 10 - Очень сильно хочу!</option>
+                <option value="10"> 10 - Очень сильно хочу!</option>
                 <option value="9">9 - Очень хочу</option>
                 <option value="8">8 - Сильно хочу</option>
                 <option value="7">7 - Хочу</option>
@@ -58,9 +58,9 @@
         </div>
         
         <div class="form-group">
-            <button type="submit">💾 Сохранить подарок</button>
+            <button type="submit"> Сохранить подарок</button>
             <a href="{{ url_for('list_gifts', wishlist_id=wishlist_id) }}">
-                <button type="button" class="back-btn">❌ Отмена</button>
+                <button type="button" class="back-btn"> Отмена</button>
             </a>
         </div>
     </form>

@@ -93,12 +93,10 @@ def my_page():
 
 @app.route("/create_wishlist", methods=['GET', 'POST'])
 def create_wishlist():
-    print("Метод:", request.method)
     
     if request.method == "GET":
         return render_template("create_wishlist.html")
     
-    # POST — получаем все данные из формы
     user_id = session.get("user_id")
     title = request.form.get("title", "")
     comment = request.form.get("comment", "")
@@ -125,7 +123,6 @@ def create_wishlist():
 
 
 
-
 @app.route("/list_gifts/<int:wishlist_id>")
 def list_gifts(wishlist_id):
     user_id = session.get("user_id")
@@ -133,6 +130,8 @@ def list_gifts(wishlist_id):
         return redirect(url_for("login_page"))
     
     wishlist = database.get_wishlist_by_id(wishlist_id)
+    
+
     if not wishlist or wishlist[1] != user_id:
         return redirect(url_for("my_page"))
     
@@ -150,7 +149,7 @@ def add_gifts(wishlist_id):
         return redirect(url_for("my_page"))
     
     if request.method == "GET":
-        return render_template("add_gift.html", wishlist_id=wishlist_id, wishlist=wishlist)
+        return render_template("add_gifts.html", wishlist_id=wishlist_id, wishlist=wishlist)
     else:
         name = request.form['name']
         price = request.form['price']
@@ -158,13 +157,17 @@ def add_gifts(wishlist_id):
         desire_level = request.form['desire_level']
         comment = request.form['comment']
         
-        # Сохраняем подарок
         gift_id = database.add_gift(wishlist_id, name, price, link, desire_level, comment)
         
         if gift_id:
             return redirect(url_for('list_gifts', wishlist_id=wishlist_id))
         else:
             return render_template("add_gift.html", wishlist_id=wishlist_id, wishlist=wishlist, errors=["Ошибка добавления подарка"])
-#ИСПРАВЬ И СДЕЛАЙ СВОИ ДОБАВЛЕНИЯ И СПИСОК
+        
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
+
 
 app.run(debug=True)

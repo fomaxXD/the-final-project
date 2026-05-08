@@ -92,7 +92,7 @@ def auth_user(login, password):
         return -1
 
     # 2. Сгенерировать хеш пароля "password"
-    if check_password_hash(user[2], password+SALT):
+    if check_password_hash(user[3], password+SALT):
         return user[0]
     
     return -1
@@ -108,6 +108,7 @@ def cr_wishlist(user_id, title, comment, date):
         "INSERT INTO wishlists (user_id, title, comment, event_date) VALUES (?, ?, ?, ?)",
         (user_id, title, comment, date)
     )
+    conn.commit()
     wishlist_id = cursor.lastrowid
     conn.close()
     return wishlist_id
@@ -119,15 +120,19 @@ def get_user_wishlists(user_id):
 
     cursor.execute("SELECT * FROM wishlists WHERE user_id = ?", (user_id,))
     wishlists = cursor.fetchall()
+    conn.close() 
     return wishlists
 
 def get_wishlist_by_id(wishlist_id):
     conn = sqlite3.connect("wishlist.db")
     cursor  = conn.cursor()
 
-    cursor.execute("SELECT * FROM wishlists WHERE user_id = ?", (wishlist_id,))
-    wishlists = cursor.fetchall()
-    return wishlists
+    cursor.execute("SELECT * FROM wishlists WHERE id = ?", (wishlist_id,))
+    wishlist = cursor.fetchone()
+    conn.close() 
+    return wishlist
+
+
 
 def get_gifts_by_wishlist(wishlist_id):
     conn = sqlite3.connect("wishlist.db")
@@ -135,9 +140,10 @@ def get_gifts_by_wishlist(wishlist_id):
 
     cursor.execute("SELECT * FROM Gifts WHERE wishlist_id = ?", (wishlist_id,))
     gifts = cursor.fetchall()
+    conn.close()
     return gifts
 
-def add_gifts(wishlist_id, name, price, link, desire_level, comment):
+def add_gift(wishlist_id, name, price, link, desire_level, comment):
     conn = sqlite3.connect("wishlist.db")
     cursor  = conn.cursor()
 
@@ -146,7 +152,9 @@ def add_gifts(wishlist_id, name, price, link, desire_level, comment):
     )
     conn.commit()
     gift_id = cursor.lastrowid
+    conn.close() 
     return gift_id
+    
 
 if __name__ == "__main__":
     create_db()

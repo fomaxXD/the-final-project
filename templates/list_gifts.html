@@ -10,8 +10,8 @@
     <h1>Подарки в вишлисте: {{ wishlist[2] }}</h1>
     
     <div class="wishlist-info">
-        <p><strong>Комментарий:</strong> {{ wishlist[3] }}</p>
-        <p><strong>Дата события:</strong> {{ wishlist[4] }}</p>
+        <p>Комментарий: {{ wishlist[3] }}</p>
+        <p>Дата события: {{ wishlist[4] }}</p>
     </div>
     
     {% if gifts %}
@@ -33,11 +33,11 @@
             <td>
                 {% set level = gift[5] %}
                 {% if level >= 8 %}
-                    <span class="desire-level level-high">🔥 {{ level }}/10</span>
+                    <span class="desire-level level-high"> {{ level }}/10</span>
                 {% elif level >= 5 %}
-                    <span class="desire-level level-medium">⭐ {{ level }}/10</span>
+                    <span class="desire-level level-medium"> {{ level }}/10</span>
                 {% else %}
-                    <span class="desire-level level-low">💚 {{ level }}/10</span>
+                    <span class="desire-level level-low"> {{ level }}/10</span>
                 {% endif %}
             </td>
             <td>{{ gift[6] if gift[6] else '—' }}</td>
@@ -45,14 +45,14 @@
         {% endfor %}
     </table>
     {% else %}
-    <p>В этом вишлисте пока нет подарков. Добавьте первый!</p>
+    <p>В этом вишлисте пока нет подарков</p>
     {% endif %}
     
     <a href="{{ url_for('add_gifts', wishlist_id=wishlist[0]) }}">
-        <button class="add-btn">➕ Добавить подарок</button>
+        <button class="add-btn"> Добавить подарок</button>
     </a>
     <a href="{{ url_for('my_page') }}">
-        <button class="back-btn">← Назад к моим вишлистам</button>
+        <button class="back-btn">Назад к моим вишлистам</button>
     </a>
 </body>
 </html>

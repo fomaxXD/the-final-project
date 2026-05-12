@@ -43,6 +43,7 @@ def create_db():
             link VARCHAR(256),
             desire_level INTEGER,
             comment VARCHAR(256),
+            booked INTEGER DEFAULT 0,
             FOREIGN KEY (wishlist_id) REFERENCES wishlists(id)
         )
     """
@@ -51,13 +52,15 @@ def create_db():
 
     sql = """
         CREATE TABLE IF NOT EXISTS Book(
-            id INTEGER,
-            user_id INTEGER,
-            gift_id INTEGER,
-            FOREIGN KEY (user_id) REFERENCES user(id),
-            FOREIGN KEY (gift_id) REFERENCES Gifts(id)
-        )
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        gift_id INTEGER,
+        FOREIGN KEY (user_id) REFERENCES user(id),
+        FOREIGN KEY (gift_id) REFERENCES Gifts(id)
+    )
     """
+    cursor.execute(sql)
+    conn.commit()
 
 def add_user(login, password, email, birthday, bio):
     conn = sqlite3.connect("wishlist.db")
@@ -153,13 +156,20 @@ def add_gift(wishlist_id, name, price, link, desire_level, comment):
     cursor  = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO Gifts (wishlist_id, name, price, link, desire_level, comment) VALUES (?, ?, ?, ?, ?, ?)", (wishlist_id, name, price, link, desire_level, comment)
+        "INSERT INTO Gifts (wishlist_id, name, price, link, desire_level, comment, booked) VALUES (?, ?, ?, ?, ?, ?, ?)", (wishlist_id, name, price, link, desire_level, comment, 0)
     )
     conn.commit()
     gift_id = cursor.lastrowid
     conn.close() 
     return gift_id
-    
 
+def change_gift_status(gift_id):
+    conn = sqlite3.connect("wishlist.db")
+    cursor = conn.cursor()
+    
+    cursor.execute("UPDATE Gifts SET booked = 1 - booked WHERE id = ?", (gift_id,))
+    conn.commit()
+    conn.close()
+    
 if __name__ == "__main__":
     create_db()

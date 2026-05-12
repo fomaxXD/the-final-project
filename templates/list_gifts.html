@@ -41,6 +41,17 @@
                 {% endif %}
             </td>
             <td>{{ gift[6] if gift[6] else '—' }}</td>
+            <td>
+                {% if gift[7] == 0 %}
+                    <a href="{{ url_for('change_gift_status', gift_id=gift[0], wishlist_id=wishlist[0]) }}">
+                        <button>Забронировать</button>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('change_gift_status', gift_id=gift[0], wishlist_id=wishlist[0]) }}">
+                        <button>Отменить</button>
+                    </a>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </table>

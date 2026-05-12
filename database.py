@@ -59,12 +59,12 @@ def create_db():
         )
     """
 
-def add_user(login, password):
+def add_user(login, password, email, birthday, bio):
     conn = sqlite3.connect("wishlist.db")
     cursor = conn.cursor()
     hashed_password = generate_password_hash(password + SALT)
 
-    cursor.execute("INSERT INTO user (login, password) VALUES (?, ?)", (login, hashed_password))
+    cursor.execute("INSERT INTO user (login, password, email, birthday, bio) VALUES (?, ?, ?, ?, ?)", (login, hashed_password, email, birthday, bio))
 
     conn.commit()   
 
@@ -95,7 +95,7 @@ def auth_user(login, password):
     if check_password_hash(user[3], password+SALT):
         return user[0]
     
-    return -1
+    
 
     # 3. Сравнить сгенерированный хеш с тем, что хранится
 
@@ -132,6 +132,11 @@ def get_wishlist_by_id(wishlist_id):
     conn.close() 
     return wishlist
 
+def get_username(user_id):
+    conn = sqlite3.connect("wishlist.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT login FROM user WHERE id = ?", (user_id,))
 
 
 def get_gifts_by_wishlist(wishlist_id):

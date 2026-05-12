@@ -41,7 +41,7 @@ def register_page():
         # Проверка на регистрацию
         if len(errors) == 0:
             # Регистрация
-            database.add_user(login, pass1)
+            database.add_user(login, pass1, email, birthday, bio)
             return render_template("success_register.html")
 
 
@@ -62,7 +62,7 @@ def login_page():
             print("Успешный вход")
             session["user_id"] = user_id
             session["login"] = login
-            return redirect(url_for("choice"))
+            return redirect(url_for("success_login"))
         else:
             print("Что-то не так")
             return render_template("login.html", errors=["Неверный логин или пароль"])
@@ -71,9 +71,15 @@ def login_page():
 def success_register():
     return render_template("success_register.html")
 
+@app.route("/success_login")
+def success_login():
+    login = session.get("login")
+    return render_template("success_login.html", login=login)
+
 @app.route("/choice")
 def choice():
-    return render_template("choice.html")
+    login = session.get("login")
+    return render_template("choice.html", login=login)
 
 @app.route("/gifts_for_friends")
 def gifts_for_friends():
@@ -86,10 +92,11 @@ def settings():
 @app.route("/my_page")
 def my_page():
     user_id = session.get("user_id")
+    login = session.get("login")
     if not user_id:
         return redirect(url_for("login_page"))
     wishlists = database.get_user_wishlists(user_id)
-    return render_template("my_page.html", wishlists=wishlists)
+    return render_template("my_page.html", wishlists=wishlists, login=login)
 
 @app.route("/create_wishlist", methods=['GET', 'POST'])
 def create_wishlist():
@@ -163,6 +170,8 @@ def add_gifts(wishlist_id):
             return redirect(url_for('list_gifts', wishlist_id=wishlist_id))
         else:
             return render_template("add_gift.html", wishlist_id=wishlist_id, wishlist=wishlist, errors=["Ошибка добавления подарка"])
+        
+
         
 @app.route("/logout")
 def logout():

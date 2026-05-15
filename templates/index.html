@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wishlist</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <h1>Создайте или войдите в аккаунт, чтобы создать вишлист</h1>
-    <a href="{{ url_for('register_page')}}"><button>Регистация</button></a>
-    <a href="{{ url_for('login_page')}}"><button>Вход</button></a>
+<body class="centered-page">
+    <div class="container">
+        <h1>Создайте или войдите в аккаунт, чтобы создать вишлист</h1>
+        <div class="choice-buttons">
+            <a href="{{ url_for('register_page')}}"><button>Регистрация</button></a>
+            <a href="{{ url_for('login_page')}}"><button>Вход</button></a>
+        </div>
+    </div>
 </body>
 </html>

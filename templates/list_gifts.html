@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Список подарков</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>Список подарков</h1>
@@ -27,7 +28,13 @@
         {% for gift in gifts %}
         <tr>
             <td>{{ gift[0] }}</td>
-            <td>{{ gift[2] }}</td>
+            <td>
+                {% if gift[7] == 0 %}
+                    {{ gift[2] }}
+                {% else %}
+                    <s>{{ gift[2] }}</s>
+                {% endif %}
+            </td>
             <td>{% if gift[3] > 0 %}{{ gift[3] }} ₽{% else %}Не указана{% endif %}</td>
             <td>{% if gift[4] %}<a href="{{ gift[4] }}" target="_blank">Ссылка</a>{% else %}—{% endif %}</td>
             <td>
@@ -48,7 +55,7 @@
                     </a>
                 {% else %}
                     <a href="{{ url_for('change_gift_status', gift_id=gift[0], wishlist_id=wishlist[0]) }}">
-                        <button>Отменить</button>
+                        <button>Отменить бронь</button>
                     </a>
                 {% endif %}
             </td>

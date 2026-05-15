@@ -4,42 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <h1>Регистрация</h1>
-    <form action="/register" method="POST">
-        <div>
-            <label for="">Логин:</label>
-            <input type="text" name="login">
+<body class="centered-page">
+    <div class="container">
+        <h1>Регистрация</h1>
+        <form action="/register" method="POST">
+            <div>
+                <label for="">Логин:</label>
+                <input type="text" name="login">
+            </div>
+            <div>
+                <label for="">Пароль:</label>
+                <input type="password" name="pass1">
+            </div>
+            <div>
+                <label for="">Подтверждение пароля:</label>
+                <input type="password" name="pass2">
+            </div>
+            <div>
+                <label for="">Почта:</label>
+                <input type="email" name="email">
+            </div>
+            <div>
+                <label for="">Дата рождения</label>
+                <input type="date" name="birthday">
+            </div>
+            <div>
+                <label for="">Биография:</label>
+                <input type="text" name="bio">
+            </div>
+            <div>
+                <input type="submit" value="Регистрация">
+            </div>
+        </form>
+        
+        {% if errors %}
+        <div class="errors">
+            {% for error in errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
         </div>
-        <div>
-            <label for="">Пароль:</label>
-            <input type="password" name="pass1">
-        </div>
-        <div>
-            <label for="">Подтверждение пароля:</label>
-            <input type="password" name="pass2">
-        </div>
-        <div>
-            <label for="">Почта:</label>
-            <input type="email" name="email">
-        </div>
-        <div>
-            <label for="">Дата рождения</label>
-            <input type="date" name="birthday">
-        </div>
-        <div>
-            <label for="">Биография:</label>
-            <input type="text" name="bio">
-        </div>
-        <div>
-            <input type="submit" value="Регистрация">
-        </div>
-    </form>
-    <div class="errors">
-        {% for error in errors %}
-        <p>{{ error }}</p>
-        {% endfor %}
+        {% endif %}
     </div>
 </body>
 </html>

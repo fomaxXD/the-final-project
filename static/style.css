@@ -1,0 +1,329 @@
+/* Общие стили для всех страниц */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e8f4f8 0%, #d4eaf5 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+    color: #2c3e50;
+}
+
+/* Контейнер для центрирования содержимого */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+}
+
+/* Заголовки */
+h1 {
+    color: #2c7eb6;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 3px solid #a8d8f0;
+    padding-bottom: 15px;
+}
+
+h2 {
+    color: #3a8cbb;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Формы */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #f9fbfd;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #cde5f0;
+}
+
+form div {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c7eb6;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="date"],
+input[type="number"],
+input[type="url"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #cde5f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #5bb5e8;
+    box-shadow: 0 0 0 3px rgba(91, 181, 232, 0.2);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Кнопки */
+button,
+input[type="submit"] {
+    background: linear-gradient(135deg, #5bb5e8 0%, #2c7eb6 100%);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
+    margin: 5px;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background: linear-gradient(135deg, #2c7eb6 0%, #1a5a8a 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(44, 126, 182, 0.3);
+}
+
+button:active,
+input[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* Таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+th {
+    background: linear-gradient(135deg, #5bb5e8 0%, #2c7eb6 100%);
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0f0f7;
+    vertical-align: middle;
+}
+
+tr:hover {
+    background: #f0f8ff;
+}
+
+/* Ссылки */
+a {
+    text-decoration: none;
+}
+
+/* Блоки с ошибками */
+.errors,
+.error {
+    background: #ffe6e6;
+    border-left: 4px solid #ff6b6b;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+.errors p,
+.error p {
+    color: #c0392b;
+    margin: 5px 0;
+}
+
+/* Информационные блоки */
+.wishlist-info {
+    background: #e8f4f8;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border-left: 4px solid #5bb5e8;
+}
+
+.wishlist-info p {
+    margin: 8px 0;
+    color: #2c3e50;
+}
+
+.hint {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    margin-top: 5px;
+}
+
+/* Уровни желания */
+.desire-level {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.level-high {
+    background: #ffd966;
+    color: #8b6914;
+}
+
+.level-medium {
+    background: #a8d8f0;
+    color: #2c7eb6;
+}
+
+.level-low {
+    background: #d5f0e8;
+    color: #27ae60;
+}
+
+/* Кнопки действий */
+.add-btn {
+    background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%);
+}
+
+.back-btn {
+    background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+}
+
+.add-btn:hover {
+    background: linear-gradient(135deg, #1e8449 0%, #145a32 100%);
+}
+
+.back-btn:hover {
+    background: linear-gradient(135deg, #7f8c8d 0%, #6c7a7a 100%);
+}
+
+/* Панель с кнопками */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+/* Стиль для забронированных подарков */
+s {
+    color: #95a5a6;
+    text-decoration: line-through;
+}
+
+/* ========== СПЕЦИАЛЬНЫЕ СТИЛИ ДЛЯ ЦЕНТРИРОВАНИЯ ========== */
+
+/* Страницы успешного входа, успешной регистрации и выбора */
+body.centered-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+body.centered-page .container {
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    padding: 50px 40px;
+}
+
+body.centered-page h1 {
+    margin-bottom: 20px;
+    border-bottom: none;
+}
+
+body.centered-page p {
+    font-size: 1.2rem;
+    color: #2c7eb6;
+    margin-bottom: 30px;
+}
+
+body.centered-page .button-group {
+    justify-content: center;
+}
+
+/* Для страницы choice - кнопки в колонку по центру */
+body.centered-page .choice-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+body.centered-page .choice-buttons button {
+    min-width: 200px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    body {
+        padding: 20px 10px;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+    
+    table {
+        font-size: 0.85rem;
+    }
+    
+    th, td {
+        padding: 8px 10px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    button, input[type="submit"] {
+        padding: 10px 18px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    body.centered-page .container {
+        padding: 30px 20px;
+    }
+}

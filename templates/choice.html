@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Выбор</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <h1>Выберите</h1>
-    <h2>Привет, {{ login }}!</h2>
-    <a href="{{ url_for('my_page')}}"><button>Моя страница</button></a>
-    <a href="{{ url_for('gifts_for_friends')}}"><button>Подарки друзьям</button></a>
-    <a href="{{ url_for('settings')}}"><button>Настройки</button></a>
-    <a href="{{ url_for('logout')}}"><button>Выйти из аккаунта</button></a>
+<body class="centered-page">
+    <div class="container">
+        <h1>Выберите</h1>
+        <h2>Привет, {{ login }}!</h2>
+        <div class="choice-buttons">
+            <a href="{{ url_for('my_page')}}"><button>Моя страница</button></a>
+            <a href="{{ url_for('gifts_for_friends')}}"><button>Подарки друзьям</button></a>
+            <a href="{{ url_for('settings')}}"><button>Настройки</button></a>
+            <a href="{{ url_for('logout')}}"><button>Выйти из аккаунта</button></a>
+        </div>
+    </div>
 </body>
 </html>
-
-

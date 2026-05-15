@@ -169,7 +169,7 @@ def add_gifts(wishlist_id):
         if gift_id:
             return redirect(url_for('list_gifts', wishlist_id=wishlist_id))
         else:
-            return render_template("add_gift.html", wishlist_id=wishlist_id, wishlist=wishlist, errors=["Ошибка добавления подарка"])
+            return render_template("add_gifts.html", wishlist_id=wishlist_id, wishlist=wishlist, errors=["Ошибка добавления подарка"])
         
 @app.route("/toggle_booked/<int:gift_id>/<int:wishlist_id>")
 def change_gift_status(gift_id, wishlist_id):

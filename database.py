@@ -52,12 +52,12 @@ def create_db():
 
     sql = """
         CREATE TABLE IF NOT EXISTS Book(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        gift_id INTEGER,
-        FOREIGN KEY (user_id) REFERENCES user(id),
-        FOREIGN KEY (gift_id) REFERENCES Gifts(id)
-    )
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            gift_id INTEGER,
+            FOREIGN KEY (user_id) REFERENCES user(id),
+            FOREIGN KEY (gift_id) REFERENCES Gifts(id)
+        )
     """
     cursor.execute(sql)
     conn.commit()
@@ -134,12 +134,6 @@ def get_wishlist_by_id(wishlist_id):
     wishlist = cursor.fetchone()
     conn.close() 
     return wishlist
-
-def get_username(user_id):
-    conn = sqlite3.connect("wishlist.db")
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT login FROM user WHERE id = ?", (user_id,))
 
 
 def get_gifts_by_wishlist(wishlist_id):

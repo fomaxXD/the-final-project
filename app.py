@@ -22,28 +22,19 @@ def register_page():
         bio = request.form['bio']
         errors = []
 
-
-        # Проверка на существующего пользователя
         if  database.check_user_exists(login):
             errors.append("Такой пользователь уже существует")
 
-
-        # Проверка на одинаковые пароли
         if pass1 != pass2:
             errors.append("Пароли не совпадают")
 
-
-        # Проверка на качество пароля
         if len(pass1) <  8:
             errors.append("Длина пароля должна быть больше 8 символов")
 
-
-        # Проверка на регистрацию
         if len(errors) == 0:
             # Регистрация
             database.add_user(login, pass1, email, birthday, bio)
             return render_template("success_register.html")
-
 
         else:
             return render_template("register.html", errors=errors)
@@ -81,13 +72,35 @@ def choice():
     login = session.get("login")
     return render_template("choice.html", login=login)
 
-@app.route("/gifts_for_friends")
-def gifts_for_friends():
-    return render_template("gifts_for_friends.html")
+@app.route("/profile")
+def profile():
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect(url_for("login_page"))
+    
+    profile = database.get_user_profile(user_id)
+    return render_template("profile.html", profile=profile)
 
-@app.route("/settings")
+@app.route("/settings", methods=['GET', 'POST'])
 def settings():
-    return render_template("settings.html")
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect(url_for("login_page"))
+    
+    if request.method == "POST":
+        if 'new_login' in request.form:
+            new_login = request.form['new_login']
+            if not database.check_user_exists(new_login):
+                database.update_user_login(user_id, new_login)
+                session["login"] = new_login
+        elif 'new_bio' in request.form:
+            database.update_user_bio(user_id, request.form['new_bio'])
+        elif 'new_birthday' in request.form:
+            database.update_user_birthday(user_id, request.form['new_birthday'])
+        return redirect(url_for("settings"))
+    
+    user = database.get_user_info(user_id)
+    return render_template("settings.html", user=user) 
 
 @app.route("/my_page")
 def my_page():
@@ -127,8 +140,6 @@ def create_wishlist():
         return redirect(url_for("my_page"))
     else:
         return render_template("create_wishlist.html", errors=["Ошибка создания вишлиста"])
-
-
 
 @app.route("/list_gifts/<int:wishlist_id>")
 def list_gifts(wishlist_id):

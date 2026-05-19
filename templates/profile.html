@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Профиль</h1>
+        
+        <div class="profile-info">
+            <p><strong>Имя:</strong> {{ profile.login }}</p>
+            <p><strong>Дата рождения:</strong> {{ profile.birthday if profile.birthday else 'Не указана' }}</p>
+            <p><strong>Биография:</strong> {{ profile.bio if profile.bio else 'Не указана' }}</p>
+            <p><strong>Создано вишлистов:</strong> {{ profile.wishlists_count }}</p>
+        </div>
+        
+        <a href="{{ url_for('choice') }}"><button>Назад</button></a>
+    </div>
+</body>
+</html>

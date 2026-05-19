@@ -68,7 +68,6 @@ def add_user(login, password, email, birthday, bio):
     hashed_password = generate_password_hash(password + SALT)
 
     cursor.execute("INSERT INTO user (login, password, email, birthday, bio) VALUES (?, ?, ?, ?, ?)", (login, hashed_password, email, birthday, bio))
-
     conn.commit()   
 
 def check_user_exists(login):
@@ -77,32 +76,20 @@ def check_user_exists(login):
 
     cursor.execute("SELECT * FROM user WHERE login =?", (login,))
 
-    user = cursor.fetchone() # (...), None
+    user = cursor.fetchone()
     return True if user else False
 
 
 def auth_user(login, password):
-    # True - фвторизация прошла
-    # False - что-то не так
-
-
-    # 1.
     conn = sqlite3.connect("wishlist.db")
     cursor = conn.cursor()    
     cursor.execute("SELECT * FROM user WHERE login = ?", (login,))
-    user = cursor.fetchone() # (2, "admin", "йцуйцуцу" | None)
+    user = cursor.fetchone()
     if not user:
         return -1
 
-    # 2. Сгенерировать хеш пароля "password"
     if check_password_hash(user[3], password+SALT):
         return user[0]
-    
-    
-
-    # 3. Сравнить сгенерированный хеш с тем, что хранится
-
-    ...
 
 def cr_wishlist(user_id, title, comment, date):
     conn = sqlite3.connect("wishlist.db")
@@ -164,6 +151,56 @@ def change_gift_status(gift_id):
     cursor.execute("UPDATE Gifts SET booked = 1 - booked WHERE id = ?", (gift_id,))
     conn.commit()
     conn.close()
+    
+def update_user_login(user_id, new_login):
+    conn = sqlite3.connect("wishlist.db")
+    cursor = conn.cursor()
+
+    cursor.execute("UPDATE user SET login = ? WHERE id = ?", (new_login, user_id))
+    conn.commit()
+    conn.close()
+
+def update_user_bio(user_id, new_bio):
+    conn = sqlite3.connect("wishlist.db")
+    cursor = conn.cursor()
+
+    cursor.execute("UPDATE user SET bio = ? WHERE id = ?", (new_bio, user_id))
+    conn.commit()
+    conn.close()
+
+def update_user_birthday(user_id, new_birthday):
+    conn = sqlite3.connect("wishlist.db")
+    cursor = conn.cursor()
+
+    cursor.execute("UPDATE user SET birthday = ? WHERE id = ?", (new_birthday, user_id))
+    conn.commit()
+    conn.close()
+
+def get_user_info(user_id):
+    conn = sqlite3.connect("wishlist.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT login, birthday, bio FROM user WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
+    conn.close()
+    return user
+
+def get_user_profile(user_id):
+    conn = sqlite3.connect("wishlist.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT login, birthday, bio FROM user WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
+    cursor.execute("SELECT COUNT(*) FROM wishlists WHERE user_id = ?", (user_id,))
+    wishlists_count = cursor.fetchone()[0]
+    conn.close()
+    return {
+        'login': user[0] if user else None,
+        'birthday': user[1] if user else None,
+        'bio': user[2] if user else None,
+        'wishlists_count': wishlists_count
+    }
+
+
     
 if __name__ == "__main__":
     create_db()

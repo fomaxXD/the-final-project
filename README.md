@@ -17,3 +17,59 @@ https://followish.io
 
 
 
+Это БД для сайта
+    sql = """
+        CREATE TABLE IF NOT EXISTS user (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email VARCHAR(256),
+            login VARCHAR(256) NOT NULL,
+            password VARCHAR(256) NOT NULL,
+            birthday DATE,
+            bio VARCHAR(256)
+        )
+    """
+    cursor.execute(sql)
+    conn.commit()
+
+    sql = """
+        CREATE TABLE IF NOT EXISTS wishlists(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            title VARCHAR(256),
+            comment VARCHAR(256),
+            event_date DATE,
+            FOREIGN KEY (user_id) REFERENCES user(id)
+        )
+    """
+    cursor.execute(sql)
+    conn.commit()
+
+    sql = """
+        CREATE TABLE IF NOT EXISTS Gifts(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            wishlist_id INTEGER,
+            name VARCHAR(256),
+            price INTEGER,
+            link VARCHAR(256),
+            desire_level INTEGER,
+            comment VARCHAR(256),
+            booked INTEGER DEFAULT 0,
+            FOREIGN KEY (wishlist_id) REFERENCES wishlists(id)
+        )
+    """
+    cursor.execute(sql)
+    conn.commit()
+
+    sql = """
+        CREATE TABLE IF NOT EXISTS Book(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            gift_id INTEGER,
+            FOREIGN KEY (user_id) REFERENCES user(id),
+            FOREIGN KEY (gift_id) REFERENCES Gifts(id)
+        )
+    """
+    cursor.execute(sql)
+    conn.commit()
+
+

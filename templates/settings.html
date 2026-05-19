@@ -2,12 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Настройки</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Настройки</h1>
-    
+    <div class="container">
+        <h1>Настройки</h1>
+        
+        <form method="POST">
+            <h3>Сменить логин</h3>
+            <input type="text" name="new_login" placeholder="Новый логин">
+            <button type="submit">Сменить</button>
+        </form>
+        
+        <form method="POST">
+            <h3>Сменить биографию</h3>
+            <textarea name="new_bio" placeholder="О себе">{{ user[2] if user[2] else '' }}</textarea>
+            <button type="submit">Сменить</button>
+        </form>
+        
+        <form method="POST">
+            <h3>Сменить дату рождения</h3>
+            <input type="date" name="new_birthday" value="{{ user[1] if user[1] else '' }}">
+            <button type="submit">Сменить</button>
+        </form>
+        
+        <a href="{{ url_for('choice') }}"><button type="button">Назад</button></a>
+    </div>
 </body>
 </html>
